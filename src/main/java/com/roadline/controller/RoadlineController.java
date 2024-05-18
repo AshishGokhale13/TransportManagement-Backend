@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.roadline.Dto.InvoiceDto;
 import com.roadline.Dto.InvoiceListDto;
+import com.roadline.Dto.KpiDto;
+import com.roadline.Dto.MonthlyTargets;
+import com.roadline.Dto.Percentage;
 import com.roadline.responses.Response;
 import com.roadline.service.InvoiceService;
 
@@ -79,6 +82,43 @@ public class RoadlineController {
 		return new ResponseEntity<>(Response.error(400,id,400,"Unable to find the entry to remove"),HttpStatusCode.valueOf(400));
 	 
 	}
+	
+	
+	
+	@GetMapping("/invoice/kpi")
+	public ResponseEntity<Response> getKpi()
+	{
+		KpiDto obj=invServ.getKpi();
+		if(obj!=null)
+		return new ResponseEntity<>(Response.success(obj),HttpStatusCode.valueOf(200));
+		return new ResponseEntity<>(Response.error(404, obj, 404,"No Record found"),HttpStatusCode.valueOf(404));
+	}
+	
+	
+	@GetMapping("/percentage")
+	public ResponseEntity<Response> getPercentage()
+	{
+		Percentage p=invServ.percentage();
+		if (p!=null)
+		return  new ResponseEntity<>(Response.success(p),HttpStatusCode.valueOf(200));
+		return  new ResponseEntity<>(Response.error(400,null,404,"bad request"),HttpStatusCode.valueOf(400));
+	}
+	
+	
+
+	@GetMapping("/monthlyTarget")
+	public ResponseEntity<Response> getMonthlytarget()
+	{
+		
+		List<MonthlyTargets> obj=invServ.getMothlyTarget();
+		
+		if(obj!=null)
+		return  new ResponseEntity<>(Response.success(obj),HttpStatusCode.valueOf(200));
+		return  new ResponseEntity<>(Response.error(400,null,404,"No Records"),HttpStatusCode.valueOf(400));
+
+	
+	}
+	
 	
 	
 	
